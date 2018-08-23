@@ -20,35 +20,6 @@ APPDIR =application
 BINDIR =bin
  # Pasta build onde ficarão todos os pontos ".o" advindos dos vários ".c" ##
 OBJDIR=build
-<<<<<<< HEAD
-# Lugar onde vai ser criado o executavel e seu nome ##
-BIN =$(BINDIR)/$(APPNAME)#$(TYPE)
-
-
-# Referencia à todos os .cpp da pasta APPDIR (Application) ##
-APP =$(wildcard $(APPDIR)/*.cpp)
-# Referencia à todos os .cpp do diretório SRCDIR (Source) ##
-SRC =$(wildcard $(SRCDIR)/*.cpp)
-#Fala que OBJS vai receber arquivos .cpp vindos do path SRCDIR, os .o advindos de OBJDIR e todos os .c contidos em SRCDIR (OBJDIR tem arquivos.o e SRC declarado acima.) ##
-OBJS =$(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRC))
-#Fala que APPOBJ vai receber os arquivos .cpp vindos do path APPDIR, os .o advindos de OBJDIR e todos os .c contidos em APPDIR. (OBJDIR tem arquivos.o e APP declarado acima) ##
-APPOBJ =$(patsubst $(APPDIR)/%.cpp,$(OBJDIR)/%.o,$(APP))
-
-
-# O executavel ~teste~ sera criado no diretorio bin utilizando os .o advindos de APPDIR e SRCDIR que estao armazenados na pasta referente ao OBJDIR ##
-$(BIN): $(OBJS) $(APPOBJ)
-	@echo '------------------------Compilling files--------------------------'
-	@echo '-----------------Type:' ./$(BIN) 'to run the file-----------------'
-# Codigo aplicado ao terminal criando o executavel ##
-### Exemplo retirado de uma compilação teste: g++ -o bin/testando build/testando.o build/soma.o -Wall -pedantic -std=c++11 -I include #
-### Retirar o "@" do início para ver o código escrito no terminal ###
-	@$(CXX) -o $(BIN) $(APPOBJ) $(OBJS) $(CPPFLAGS)
-
-
-# Transforma .cpp em .o levando para o diretorio de Obj ##
-### Exemplo retirado de uma compilação teste: g++ -Wall -pedantic -std=c++11 -I include -o build/testando.o -c application/testando.cpp ###
-$(OBJDIR)/%.o: $(APPDIR)/%.cpp
-=======
 # Pasta test onde ficarão todos os testes relacionados as funções da aplicação ##
 TESTDIR=test
 # Pasta local lib onde ficarão todas as bibliotecas relacionadas à aplicação e ao google test ##
@@ -92,33 +63,17 @@ $(BUILD): $(OBJS) $(APPOBJ)
 # Transforma .cpp em .o levando para o diretorio de Obj ##
 ### Exemplo retirado de uma compilação teste: g++ -Wall -pedantic -std=c++11 -I include -o bin/testando.o -c application/testando.cpp ###
 $(BINDIR)/%.o: $(APPDIR)/%.cpp
->>>>>>> Att 22-08-18
 # $@ refere-se a regra definida acima (%.o) e $< refere-se a primeira dependência (%.cpp) ##
 # Retirar o "@" do início para ver o código escrito no terminal ###
 	@$(CXX) $(CPPFLAGS) -o $@ -c $< 
 
 # Transforma .cpp em .o levando para o diretorio de Obj ##
-<<<<<<< HEAD
-### Exemplo retirado de uma compilação teste: g++ -Wall -pedantic -std=c++11 -I include -o build/soma.o -c src/soma.cpp ###
-$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-=======
 ### Exemplo retirado de uma compilação teste: g++ -Wall -pedantic -std=c++11 -I include -o bin/soma.o -c src/soma.cpp ###
 $(BINDIR)/%.o: $(SRCDIR)/%.cpp
->>>>>>> Att 22-08-18
 # $@ refere-se a regra definida acima (%.o) e $< refere-se a primeira dependência (%.cpp) ##
 # Retirar o "@" do início para ver o código escrito no terminal ###
 	@$(CXX) $(CPPFLAGS) -o $@ -c $< 
 
-<<<<<<< HEAD
-
-.PHONY: clean mrproper
-### Função que deleta todos os objetos tanto da Build quanto o executável da parta Bin para re-compilação ###
-clean:
-	@echo '-----------------Erased all files from Build and Bin directories-----------------'
-	@rm -f $(OBJDIR)/*.o $(BINDIR)/*
-mrproper: clean
-	@rm -f $(OBJDIR)/*.o $(BINDIR)/*
-=======
 .PHONY: clean mrproper lib app test
 ### Função que deleta todos os objetos tanto da Bin quanto o executável da parta Build para re-compilação ###
 clean:
@@ -189,4 +144,3 @@ else
 	@mv run_test ./test
 endif
 	@echo "------------------- Your run_test is ready -------------------"
->>>>>>> Att 22-08-18
