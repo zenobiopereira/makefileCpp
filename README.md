@@ -1,6 +1,9 @@
 # Um exemplo funcional e comentado de Makefile em C++
 
 
+## **IMPORTANTE: NÃO ESQUECER DE EDITAR OS PATHS DENTRO DO MAKEFILE PARA QUE OS NOMES DE APLICAÇÕES, OBJETOS E TESTES, CORRESPONDAM AO ESPERADO E NÃO A ESTE EXEMPLO**
+
+
 ### Como Utilizar
 1. Dê um pull ou faça download do projeto.
 2. Extraia o Makefile na pasta do projeto o qual deseja utiliza-lo, após a criação das pastas necessárias listadas abaixo.
@@ -13,12 +16,13 @@
 3. Abra o terminal, entre na pasta relacionada ao projeto onde o Makefile foi extraído.
 4. Mova os arquivos Makefile e a pasta "gtest" para dentro da pasta principal do seu projeto.
     **Considere $ como root**
-*   $/Desktop/makefileCpp cp -r gtest Projeto
-*   $/Desktop/makefileCpp cp Makefile Projeto
-5. Utilize o comando "make" para compilar o projeto após a criação dos seus arquivos principais tais quais includes, src e app.
+*   /Desktop/makefileCpp$ _cp -r gtest Projeto_
+*   /Desktop/makefileCpp$ _cp Makefile Projeto_
+5. Utilize o comando "make" para compilar a aplicação após a criação dos seus arquivos principais tais quais includes, src e app e edição dos paths dentro do Makefile.
 
 # Commands #
 * _make_ -> **Cria os ".o" na pasta bin e builda a aplicação na pasta build.**
+* _make mrproper_ -> **Deleta todos os arquivos da pasta Bin/Build. (Utilizável ao desejar recompilar a aplicação e ou Objetos)**
 * _make clean_ -> **Deleta todos os arquivos da pasta Bin/Build. o teste executável e os objetos/libs da pasta de projeto principal**
 * _make testLib_ -> **Cria as libs e os ".o" necessários para compilação do run_tests.**
 * _make lib_ -> **Cria a Lib interna do projeto.**

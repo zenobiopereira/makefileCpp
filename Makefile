@@ -53,12 +53,12 @@ APPOBJ =$(patsubst $(APPDIR)/%.cpp,$(BINDIR)/%.o,$(APP))
 
 # O executavel ~teste~ sera criado no diretorio build utilizando os .o advindos de APPDIR e SRCDIR que estao armazenados na pasta referente ao BINDIR ##
 $(BUILD): $(OBJS) $(APPOBJ)
-	@echo '------------------------Compilling files--------------------------'
-	@echo '-----------------Type:' ./$(BUILD) 'to run the file-----------------'
 # Codigo aplicado ao terminal criando o executavel ##
 ### Exemplo retirado de uma compilação teste: g++ -o build/testando bin/testando.o bin/soma.o -Wall -pedantic -std=c++11 -I include #
 ### Retirar o "@" do início para ver o código escrito no terminal ###
-	@$(CXX) -o $(BUILD) $(APPOBJ) $(OBJS) $(CPPFLAGS) 
+	@echo '------------------------Compilling files--------------------------'
+	@$(CXX) -o $(BUILD) $(APPOBJ) $(OBJS) $(CPPFLAGS)
+	@echo '-----------------Type:' ./$(BUILD) 'to run the file-----------------'
 
 # Transforma .cpp em .o levando para o diretorio de Obj ##
 ### Exemplo retirado de uma compilação teste: g++ -Wall -pedantic -std=c++11 -I include -o bin/testando.o -c application/testando.cpp ###
@@ -80,9 +80,9 @@ clean:
 	@echo '----Erased all files from Build and Bin directories, Erased run_test from $(TESTDIR) and the libs/obj from main project ----'
 	@rm -f $(BINDIR)/*.o $(OBJDIR)/* $(LIBDIR)/$(APPNAME).a $(TESTDIR)/run_test *.o *.a
 ### Segunda que deleta todos os objetos tanto da Bin quanto o executável da parta Build porém também deleta a biblioteca gerada pelo make lib###
-#mrproper:
-#	@echo '-----------------Erased all files from Build and Bin directories and the run_test from $(TESTDIR)-----------------'
-#	@rm -f $(BINDIR)/*.o $(OBJDIR)/* $(LIBDIR)/$(APPNAME).a $(TESTDIR)/run_test
+mrproper:
+	@echo '-----------------Erased all files from Build and Bin directories and the run_test from $(TESTDIR)-----------------'
+	@rm -f $(BINDIR)/*.o $(OBJDIR)/* $(LIBDIR)/$(APPNAME).a $(TESTDIR)/run_test
 ### Funcão que testa se a Lib local da aplicação já existe ou se ela precisa ser gerada ###
 lib:
 ifeq ($(wildcard $(LIBDIR)/*.a), $(LIBDIR)/$(APPNAME).a)
