@@ -117,10 +117,14 @@ gtest.a : gtest-all.o
 gtest_main.a : gtest-all.o gtest_main.o
 	@$(ARR) $@ $^
 testLib:
-	@make gtest-all.o
-	@make gtest_main.o
-	@make gtest.a
-	@make gtest_main.a
+	-@make gtest-all.o
+	-@make gtest_main.o
+	-@make gtest.a
+	-@make gtest_main.a
+	@echo "------------------- Libs and Objs created at main -------------------"
+	@ls *.a *.o
+	@echo "------------------- Exec run_test on $(TESTDIR)  -------------------"
+	@ls ./test
 #gtest:
 #	@git submodule add https://github.com/google/googletest.git
 #	@git submodule init
@@ -132,15 +136,15 @@ run_test : test.o gtest_main.a
 	@$(CXX) $(GTESTCPPFLAGS) $(GTEST_CFLAGS) -lpthread $^ -o $@
 test:
 ifeq ($(wildcard $(LIBDIR)/*.a), $(LIBDIR)/$(APPNAME).a)
-	@make teste.o
-	@make run_test
-	@rm test.o
-	@mv run_test ./test
+	-@make teste.o
+	-@make run_test
+	-@rm test.o
+	-@mv run_test ./test
 else
-	@make lib
-	@make teste.o
-	@make run_test
-	@rm test.o
-	@mv run_test ./test
+	-@make lib
+	-@make teste.o
+	-@make run_test
+	-@rm test.o
+	-@mv run_test ./test
 endif
 	@echo "------------------- Your run_test is ready -------------------"

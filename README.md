@@ -12,7 +12,7 @@
         * bin (Executable).
 3. Abra o terminal, entre na pasta relacionada ao projeto onde o Makefile foi extraído.
 4. Mova os arquivos Makefile e a pasta "gtest" para dentro da pasta principal do seu projeto.
-    **Considere $ como usuário root**
+    **Considere $ como root**
 *   $/Desktop/makefileCpp cp -r gtest Projeto
 *   $/Desktop/makefileCpp cp Makefile Projeto
 5. Utilize o comando "make" para compilar o projeto após a criação dos seus arquivos principais tais quais includes, src e app.
