@@ -11,8 +11,11 @@
         * build (Objects).
         * bin (Executable).
 3. Abra o terminal, entre na pasta relacionada ao projeto onde o Makefile foi extraído.
-4. Utilize o comando "make" para compilar o projeto.
-4. Caso necessário os comandos "make clean" e "make mrproper" podem ser utilizados para limpar as pastas Build e Bin.
+4. Mova os arquivos Makefile e a pasta "gtest" para dentro da pasta principal do seu projeto.
+    **Considere $ como usuário root**
+*   $/Desktop/makefileCpp cp -r gtest Projeto
+*   $/Desktop/makefileCpp cp Makefile Projeto
+5. Utilize o comando "make" para compilar o projeto após a criação dos seus arquivos principais tais quais includes, src e app.
 
 # Commands #
 * _make_ -> **Cria os ".o" na pasta bin e builda a aplicação na pasta build.**
@@ -20,7 +23,6 @@
 * _make testLib_ -> **Cria as libs e os ".o" necessários para compilação do run_tests.**
 * _make lib_ -> **Cria a Lib interna do projeto.**
 * _make test_ -> **Cria um teste único executável que recebe todos os testes da aplicação**
-
 
 
 
