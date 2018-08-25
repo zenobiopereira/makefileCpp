@@ -1,3 +1,5 @@
+# Retorno do sistema do comando inserido logo acima ##
+A=$(shell ls > /dev/null 2>&1 ; echo $$?)
 # Tipo do arquivo executável de saída ##
 ###	TYPE =.exe ###
 # Alocar o lugar onde está o seu projeto ##
@@ -56,9 +58,12 @@ $(BUILD): $(OBJS) $(APPOBJ)
 # Codigo aplicado ao terminal criando o executavel ##
 ### Exemplo retirado de uma compilação teste: g++ -o build/testando bin/testando.o bin/soma.o -Wall -pedantic -std=c++11 -I include #
 ### Retirar o "@" do início para ver o código escrito no terminal ###
-	@echo '------------------------Compilling files--------------------------'
+	@clear
+	@echo "------------------------Compilling files--------------------------"
 	@$(CXX) -o $(BUILD) $(APPOBJ) $(OBJS) $(CPPFLAGS)
-	@echo '-----------------Type:' ./$(BUILD) 'to run the file-----------------'
+ifeq ($A, 0)
+	@echo "-----------------Type:' ./$(BUILD) 'to run the file-----------------"
+endif
 
 # Transforma .cpp em .o levando para o diretorio de Obj ##
 ### Exemplo retirado de uma compilação teste: g++ -Wall -pedantic -std=c++11 -I include -o bin/testando.o -c application/testando.cpp ###
@@ -86,11 +91,13 @@ mrproper:
 ### Funcão que testa se a Lib local da aplicação já existe ou se ela precisa ser gerada ###
 lib:
 ifeq ($(wildcard $(LIBDIR)/*.a), $(LIBDIR)/$(APPNAME).a)
+	@clear
 	@echo '----------------- Internal Lib already exists -----------------'
 	@ls $(LIBDIR)
 else 
 	@$(CXX) -c $(APP) -I $(INCDIR) -o $(BINDIR)/$(APPNAME)_lib.o
 	@$(ARR) $(LIBDIR)/$(APPNAME).a $(BINDIR)/$(APPNAME)_lib.o
+	@clear
 	@echo '----------------- Local application lib created -----------------'
 endif
  # Função que cria os testes relacionados a aplicação como um todo caso a Lib já exista, caso não, ele primeiro irá criar a lib interna ###
@@ -121,6 +128,7 @@ testLib:
 	-@make gtest_main.o
 	-@make gtest.a
 	-@make gtest_main.a
+	@clear
 	@echo "------------------- Libs and Objs created at main -------------------"
 	@ls *.a *.o
 	@echo "------------------- Exec run_test on $(TESTDIR)  -------------------"
@@ -147,4 +155,5 @@ else
 	-@rm test.o
 	-@mv run_test ./test
 endif
-	@echo "------------------- Your run_test is ready -------------------"
+	@clear
+	@echo "------------------- Your run_test is ready at test/run_test-------------------"
