@@ -1,5 +1,3 @@
-# Retorno do sistema do comando inserido logo acima ##
-A=$(shell ls > /dev/null 2>&1 ; echo $$?)
 # Tipo do arquivo executável de saída ##
 ###	TYPE =.exe ###
 # Alocar o lugar onde está o seu projeto ##
@@ -7,6 +5,10 @@ A=$(shell ls > /dev/null 2>&1 ; echo $$?)
 ###	prefix =C/Users/Administrador/Desktop/Projeto ###
 # Nome que o executável receberá ##
 APPNAME =twoPlusThree
+# Nome que a lib interna receberá ##
+LIBNAME =twoPlusThree
+# Nome necessário para gerar um dos arquivos da criação do teste (GARANTA QUE O ARQUIVO SEJA .CPP) (teste.o) ##
+TESTNAME =blablabla
 # Pasta include onde estão os cabeçalhos ".h" ##
 INCDIR =include
 #CC=gcc
@@ -58,12 +60,9 @@ $(BUILD): $(OBJS) $(APPOBJ)
 # Codigo aplicado ao terminal criando o executavel ##
 ### Exemplo retirado de uma compilação teste: g++ -o build/testando bin/testando.o bin/soma.o -Wall -pedantic -std=c++11 -I include #
 ### Retirar o "@" do início para ver o código escrito no terminal ###
-	@clear
-	@echo "------------------------Compilling files--------------------------"
+	@echo '------------------------Compilling files--------------------------'
 	@$(CXX) -o $(BUILD) $(APPOBJ) $(OBJS) $(CPPFLAGS)
-ifeq ($A, 0)
-	@echo "-----------------Type:' ./$(BUILD) 'to run the file-----------------"
-endif
+	@echo '-----------------Type:' ./$(BUILD) 'to run the file-----------------'
 
 # Transforma .cpp em .o levando para o diretorio de Obj ##
 ### Exemplo retirado de uma compilação teste: g++ -Wall -pedantic -std=c++11 -I include -o bin/testando.o -c application/testando.cpp ###
@@ -90,14 +89,12 @@ mrproper:
 	@rm -f $(BINDIR)/*.o $(OBJDIR)/* $(LIBDIR)/$(APPNAME).a $(TESTDIR)/run_test
 ### Funcão que testa se a Lib local da aplicação já existe ou se ela precisa ser gerada ###
 lib:
-ifeq ($(wildcard $(LIBDIR)/*.a), $(LIBDIR)/$(APPNAME).a)
-	@clear
+ifeq ($(wildcard $(LIBDIR)/*.a), $(LIBDIR)/$(LIBNAME).a)
 	@echo '----------------- Internal Lib already exists -----------------'
 	@ls $(LIBDIR)
 else 
 	@$(CXX) -c $(APP) -I $(INCDIR) -o $(BINDIR)/$(APPNAME)_lib.o
-	@$(ARR) $(LIBDIR)/$(APPNAME).a $(BINDIR)/$(APPNAME)_lib.o
-	@clear
+	@$(ARR) $(LIBDIR)/$(LIBNAME).a $(BINDIR)/$(APPNAME)_lib.o
 	@echo '----------------- Local application lib created -----------------'
 endif
  # Função que cria os testes relacionados a aplicação como um todo caso a Lib já exista, caso não, ele primeiro irá criar a lib interna ###
@@ -128,32 +125,31 @@ testLib:
 	-@make gtest_main.o
 	-@make gtest.a
 	-@make gtest_main.a
-	@clear
 	@echo "------------------- Libs and Objs created at main -------------------"
 	@ls *.a *.o
-	@echo "------------------- Exec run_test on $(TESTDIR)  -------------------"
+	@echo "------------------- And your test.cpp at $(TESTDIR)  -------------------"
 	@ls ./test
 #gtest:
 #	@git submodule add https://github.com/google/googletest.git
 #	@git submodule init
 #	@git submodule update
-teste.o : $(wildcard $(TESTDIR)/*.cpp) $(wildcard $(INCDIR)/*.h) $(GTEST_HEADERS)
-	@$(CXX) $(GTESTCPPFLAGS) $(GTEST_CFLAGS) -c $(TESTDIR)/test.cpp
+$(TESTNAME).o : $(TST) $(wildcard $(INCDIR)/*.h) $(GTEST_HEADERS)
+	@$(CXX) $(GTESTCPPFLAGS) $(GTEST_CFLAGS) -c $(TESTDIR)/$(TESTNAME).cpp
 
-run_test : test.o gtest_main.a
+run_test : $(TESTNAME).o gtest_main.a
 	@$(CXX) $(GTESTCPPFLAGS) $(GTEST_CFLAGS) -lpthread $^ -o $@
 test:
-ifeq ($(wildcard $(LIBDIR)/*.a), $(LIBDIR)/$(APPNAME).a)
-	-@make teste.o
+ifeq ($(wildcard $(LIBDIR)/*.a), $(LIBDIR)/$(LIBNAME).a)
+	-@make $(TESTNAME).o
 	-@make run_test
-	-@rm test.o
+	-@rm $(TESTNAME).o
 	-@mv run_test ./test
 else
-	-@make lib
-	-@make teste.o
+	-@make $(TESTNAME).o
 	-@make run_test
-	-@rm test.o
+	-@rm $(TESTNAME).o
 	-@mv run_test ./test
 endif
-	@clear
-	@echo "------------------- Your run_test is ready at test/run_test-------------------"
+	@echo "------------------- Your run_test on $(TESTDIR) is ready -------------------"
+	@ls ./test
+	@echo "------------------- Alert: Your Internal Lib may not have been generated yet (use make lib if needed) -------------------"

@@ -1,4 +1,4 @@
-#include "../include/functions.hpp"
+#include "../include/functions.h"
 
 int twoPlusThree (int a, int b)
 {

@@ -11,13 +11,15 @@
         * src (Source Code).
         * include (Headers).
         * application (Functions And General Applications).
-        * build (Objects).
-        * bin (Executable).
+        * build (Executable).
+        * bin (Objects).
+        * test (main_tests.cpp)
 3. Abra o terminal, entre na pasta relacionada ao projeto onde o Makefile foi extraído.
 4. Mova os arquivos Makefile e a pasta "gtest" para dentro da pasta principal do seu projeto.
     **Considere $ como root**
 *   /Desktop/makefileCpp$ _cp -r gtest Projeto_
 *   /Desktop/makefileCpp$ _cp Makefile Projeto_
+5. **<font color="red"> Abra o Makefile e edite o nome da aplicação (APPNAME), da lib interna que será gerada (LIBNAME) e do (TESTNAME) para o nome do seu arquivo ".cpp" o qual contem todos os testes necessários que se encontra na pasta "Projeto/test", observe bem se dentro dos seus ".cpp" divididos na pasta de "application" e "src" o include corresponde a pasta correta.</font>**
 5. Utilize o comando "make" para compilar a aplicação após a criação dos seus arquivos principais tais quais includes, src e app e edição dos paths dentro do Makefile.
 
 # Commands #
