@@ -69,14 +69,14 @@ $(BUILD): $(OBJS) $(APPOBJ)
 $(BINDIR)/%.o: $(APPDIR)/%.cpp
 # $@ refere-se a regra definida acima (%.o) e $< refere-se a primeira dependência (%.cpp) ##
 # Retirar o "@" do início para ver o código escrito no terminal ###
-	@$(CXX) $(CPPFLAGS) -o $@ -c $< 
+	@$(CXX) $(CPPFLAGS) -o $@ -c $<
 
 # Transforma .cpp em .o levando para o diretorio de Obj ##
 ### Exemplo retirado de uma compilação teste: g++ -Wall -pedantic -std=c++11 -I include -o bin/soma.o -c src/soma.cpp ###
 $(BINDIR)/%.o: $(SRCDIR)/%.cpp
 # $@ refere-se a regra definida acima (%.o) e $< refere-se a primeira dependência (%.cpp) ##
 # Retirar o "@" do início para ver o código escrito no terminal ###
-	@$(CXX) $(CPPFLAGS) -o $@ -c $< 
+	@$(CXX) $(CPPFLAGS) -o $@ -c $<
 
 .PHONY: clean mrproper lib app test
 ### Função que deleta todos os objetos tanto da Bin quanto o executável da parta Build para re-compilação ###
@@ -92,7 +92,7 @@ lib:
 ifeq ($(wildcard $(LIBDIR)/*.a), $(LIBDIR)/$(LIBNAME).a)
 	@echo '----------------- Internal Lib already exists -----------------'
 	@ls $(LIBDIR)
-else 
+else
 	@$(CXX) -c $(APP) -I $(INCDIR) -o $(BINDIR)/$(APPNAME)_lib.o
 	@$(ARR) $(LIBDIR)/$(LIBNAME).a $(BINDIR)/$(APPNAME)_lib.o
 	@echo '----------------- Local application lib created -----------------'
@@ -120,11 +120,11 @@ gtest.a : gtest-all.o
 #
 gtest_main.a : gtest-all.o gtest_main.o
 	@$(ARR) $@ $^
-testLib:
-	-@make gtest-all.o
-	-@make gtest_main.o
-	-@make gtest.a
-	-@make gtest_main.a
+testLib: gtest-all.o gtest_main.o gtest.a gtest_main.a
+# -@make gtest-all.o
+# -@make gtest_main.o
+# -@make gtest.a
+# -@make gtest_main.a
 	@echo "------------------- Libs and Objs created at main -------------------"
 	@ls *.a *.o
 	@echo "------------------- And your test.cpp at $(TESTDIR)  -------------------"
@@ -136,7 +136,7 @@ testLib:
 $(TESTNAME).o : $(TST) $(wildcard $(INCDIR)/*.h) $(GTEST_HEADERS)
 	@$(CXX) $(GTESTCPPFLAGS) $(GTEST_CFLAGS) -c $(TESTDIR)/$(TESTNAME).cpp
 
-run_test : $(TESTNAME).o gtest_main.a
+run_test: $(TESTNAME).o gtest_main.a
 	@$(CXX) $(GTESTCPPFLAGS) $(GTEST_CFLAGS) -lpthread $^ -o $@
 test:
 ifeq ($(wildcard $(LIBDIR)/*.a), $(LIBDIR)/$(LIBNAME).a)
